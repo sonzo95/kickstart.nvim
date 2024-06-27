@@ -424,6 +424,23 @@ require('lazy').setup({
       -- used for completion, annotations and signatures of Neovim apis
       { 'folke/neodev.nvim', opts = {} },
     },
+    opts = {
+      setup = {
+        -- disable tsserver formatter in order to use prettier on save and <leader>f
+        tsserver = function(_, opts)
+          require('lazyvim.util').on_attach(function(client, buffer)
+            if client.name == 'tsserver' then
+              client.server_capabilities.documentFormattingProvider = false
+            end
+            if client.name == 'prettier' then
+              client.server_capabilities.documentFormattingProvider = true
+            end
+          end)
+          require('typescript').setup { server = opts }
+          return true
+        end,
+      },
+    },
     config = function()
       -- Brief aside: **What is LSP?**
       --
@@ -640,6 +657,7 @@ require('lazy').setup({
         'goimports-reviser',
         'golines',
         'prettier',
+        'prettierd',
       })
       require('mason-tool-installer').setup { ensure_installed = ensure_installed }
 
@@ -690,7 +708,9 @@ require('lazy').setup({
         --
         -- You can use a sub-list to tell conform to run *until* a formatter
         -- is found.
-        -- javascript = { { "prettierd", "prettier" } },
+        javascript = { { 'prettierd', 'prettier' } },
+        typescript = { { 'prettierd', 'prettier' } },
+        tsx = { { 'prettierd', 'prettier' } },
       },
     },
   },
