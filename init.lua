@@ -884,6 +884,7 @@ require('lazy').setup({
         'vim',
         'vimdoc',
         'typescript',
+        'tsx',
         'javascript',
       },
       -- Autoinstall languages that are not installed
