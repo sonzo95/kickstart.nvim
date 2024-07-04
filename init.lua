@@ -2,7 +2,7 @@
 
 =====================================================================
 ==================== READ THIS BEFORE CONTINUING ====================
-=====================================================================
+'=====================================================================
 ========                                    .-----.          ========
 ========         .----------------------.   | === |          ========
 ========         |.-""""""""""""""""""-.|   |-----|          ========
@@ -673,6 +673,24 @@ require('lazy').setup({
           end,
         },
       }
+
+      -- Same as `servers`, but these are not installed nor configured via Mason.
+      -- Use this list to install servers that are present in your bin path.
+      local custom_servers = {
+        sourcekit = {
+          workspace = {
+            didChangeWatchedFiles = {
+              dynamicRegistration = true,
+            },
+          },
+          root_dir = require('lspconfig/util').root_pattern('.git', 'Package.swift', 'compile_commands.json'),
+        },
+      }
+
+      for server_name, server in pairs(custom_servers) do
+        server.capabilities = vim.tbl_deep_extend('force', {}, capabilities, server.capabilities or {})
+        require('lspconfig')[server_name].setup(server)
+      end
     end,
   },
 
