@@ -5,6 +5,7 @@ return {
     local conform = require 'conform'
     conform.setup {
       formatters_by_ft = {
+        -- INFO: install via `brew install swiftformat`
         swift = { 'swiftformat' },
       },
     }
