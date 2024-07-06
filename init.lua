@@ -685,6 +685,10 @@ require('lazy').setup({
             },
           },
           root_dir = require('lspconfig/util').root_pattern('.git', 'Package.swift', 'compile_commands.json'),
+          on_attach = function ()
+            -- vim.cmd([[autocmd BufWritePost *.swift !swift build]])
+            vim.cmd([[autocmd BufWritePost *.swift lua require('commands').swift_build()]])
+          end
         },
       }
 
