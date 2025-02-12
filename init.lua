@@ -434,18 +434,18 @@ require('lazy').setup({
     opts = {
       setup = {
         -- disable ts_ls formatter in order to use prettier on save and <leader>f
-        ts_ls = function(_, opts)
-          require('lazyvim.util').on_attach(function(client, buffer)
-            if client.name == 'ts_ls' then
-              client.server_capabilities.documentFormattingProvider = false
-            end
-            if client.name == 'prettier' then
-              client.server_capabilities.documentFormattingProvider = true
-            end
-          end)
-          require('typescript').setup { server = opts }
-          return true
-        end,
+        -- ts_ls = function(_, opts)
+        -- require('lazyvim.util').on_attach(function(client, buffer)
+        -- if client.name == 'ts_ls' then
+        -- client.server_capabilities.documentFormattingProvider = false
+        -- end
+        -- if client.name == 'prettier' then
+        -- client.server_capabilities.documentFormattingProvider = true
+        -- end
+        --   end)
+        --  require('typescript').setup { server = opts }
+        --  return true
+        --end,
       },
     },
     config = function()
@@ -605,46 +605,14 @@ require('lazy').setup({
         },
 
         rust_analyzer = {},
-        gopls = {
-          cmd = { 'gopls' },
-          filetypes = { 'go', 'gomod', 'gowork', 'gotmpl' },
-          root_dir = require('lspconfig/util').root_pattern('go.work', 'go.mod', '.git'),
-          settings = {
-            gopls = {
-              completeUnimported = true,
-              usePlaceholders = true,
-              analyses = {
-                nilness = true,
-                unusedparams = true,
-                unusedwrite = true,
-                useany = true,
-              },
-              experimentalPostfixCompletions = true,
-              gofumpt = true,
-              -- staticcheck = true,
-              --
-              -- DISABLED because gopls doesn't invoke the staticcheck binary.
-              -- Instead it imports the analyzers directly and this means it can report on issues the binary doesn't.
-              -- But rather than that being a good thing, it can be annoying because you can't then use line directives to ignore the issue if it's not important.
-              -- So instead I use null-ls to invoke the staticcheck binary.
-              -- https://github.com/golang/go/issues/36373#issuecomment-570643870
-              --
-              -- See also my longer explanation of issues here:
-              -- https://github.com/golangci/golangci-lint/issues/741#issuecomment-1488116634
-              hints = {
-                assignVariableTypes = true,
-                compositeLiteralFields = true,
-                compositeLiteralTypes = true,
-                constantValues = true,
-                functionTypeParameters = true,
-                parameterNames = true,
-                rangeVariableTypes = true,
-              },
-            },
-          },
+        lexical = {
+          root_dir = function(fname)
+            return require('lspconfig/util').root_pattern("mix.exs", ".git")(fname) or vim.loop.cwd()
+          end,
+          filetypes = { "elixir", "eelixir", "heex" },
+          -- optional settings
+          -- settings = {}
         },
-        sqlls = {},
-        ts_ls = {},
       }
 
       -- Ensure the servers and tools above are installed
@@ -661,11 +629,6 @@ require('lazy').setup({
       local ensure_installed = vim.tbl_keys(servers or {})
       vim.list_extend(ensure_installed, {
         'stylua', -- Used to format Lua code
-        'gofumpt',
-        'goimports-reviser',
-        'golines',
-        'prettier',
-        'prettierd',
       })
       require('mason-tool-installer').setup { ensure_installed = ensure_installed }
 
@@ -738,9 +701,6 @@ require('lazy').setup({
         --
         -- You can use a sub-list to tell conform to run *until* a formatter
         -- is found.
-        javascript = { { 'prettierd', 'prettier' } },
-        typescript = { { 'prettierd', 'prettier' } },
-        tsx = { { 'prettierd', 'prettier' } },
       },
     },
   },
