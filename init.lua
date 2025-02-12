@@ -662,14 +662,7 @@ require('lazy').setup({
         },
 
         rust_analyzer = {},
-        lexical = {
-          root_dir = function(fname)
-            return require('lspconfig/util').root_pattern("mix.exs", ".git")(fname) or vim.loop.cwd()
-          end,
-          filetypes = { "elixir", "eelixir", "heex" },
-          -- optional settings
-          -- settings = {}
-        },
+        elixirls = {},
       }
 
       -- Ensure the servers and tools above are installed
