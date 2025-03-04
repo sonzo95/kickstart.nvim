@@ -12,6 +12,7 @@ return {
 
     vim.keymap.set('n', '<leader>a', function()
       harpoon:list():add()
+      vim.notify("File added to Harpoon", "info")
     end, { desc = 'Harpoon append file' })
 
     vim.keymap.set('n', '<leader>w', function()
