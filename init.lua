@@ -156,6 +156,8 @@ vim.opt.cursorline = true
 -- Minimal number of screen lines to keep above and below the cursor.
 vim.opt.scrolloff = 10
 
+pcall(vim.api.nvim_set_option_value, 'winbar', "%m%f", { scope = 'local' })
+
 -- [[ Basic Keymaps ]]
 --  See `:help vim.keymap.set()`
 
@@ -266,7 +268,7 @@ require('lazy').setup({
   -- Then, because we use the `opts` key (recommended), the configuration runs
   -- after the plugin has been loaded as `require(MODULE).setup(opts)`.
 
-  { -- Useful plugin to show you pending keybinds.
+  {                     -- Useful plugin to show you pending keybinds.
     'folke/which-key.nvim',
     event = 'VimEnter', -- Sets the loading event to 'VimEnter'
     opts = {
@@ -313,7 +315,7 @@ require('lazy').setup({
       -- Document existing key chains
       spec = {
         { '<leader>b', group = '[B]uffer' },
-        { '<leader>c', group = '[C]ode', mode = { 'n', 'x' } },
+        { '<leader>c', group = '[C]ode',         mode = { 'n', 'x' } },
         { '<leader>d', group = '[D]ocument' },
         { '<leader>f', group = '[F]ind' },
         { '<leader>g', group = '[G]it' },
@@ -321,7 +323,7 @@ require('lazy').setup({
         { '<leader>s', group = '[S]earch' },
         { '<leader>t', group = '[T]oggle' },
         { '<leader>u', group = 'Snacks settings' },
-        { '<leader>h', group = 'Git [H]unk', mode = { 'n', 'v' } },
+        { '<leader>h', group = 'Git [H]unk',     mode = { 'n', 'v' } },
       },
     },
   },
@@ -355,7 +357,7 @@ require('lazy').setup({
       { 'nvim-telescope/telescope-ui-select.nvim' },
 
       -- Useful for getting pretty icons, but requires a Nerd Font.
-      { 'nvim-tree/nvim-web-devicons', enabled = vim.g.have_nerd_font },
+      { 'nvim-tree/nvim-web-devicons',            enabled = vim.g.have_nerd_font },
     },
     config = function()
       -- Telescope is a fuzzy finder that comes with a lot of different things that
@@ -411,16 +413,6 @@ require('lazy').setup({
       -- vim.keymap.set('n', '<leader>sd', builtin.diagnostics, { desc = '[S]earch [D]iagnostics' })
       -- vim.keymap.set('n', '<leader>sr', builtin.resume, { desc = '[S]earch [R]esume' })
       vim.keymap.set('n', '<leader>s.', builtin.oldfiles, { desc = '[S]earch Recent Files ("." for repeat)' })
-      vim.keymap.set('n', '<leader><leader>', builtin.buffers, { desc = '[ ] Find existing buffers' })
-
-      -- Slightly advanced example of overriding default behavior and theme
-      vim.keymap.set('n', '<leader>/', function()
-        -- You can pass additional configuration to Telescope to change the theme, layout, etc.
-        builtin.current_buffer_fuzzy_find(require('telescope.themes').get_dropdown {
-          winblend = 10,
-          previewer = false,
-        })
-      end, { desc = '[/] Fuzzily search in current buffer' })
 
       -- It's also possible to pass additional configuration options.
       --  See `:help telescope.builtin.live_grep()` for information about particular keys
@@ -463,7 +455,7 @@ require('lazy').setup({
       'WhoIsSethDaniel/mason-tool-installer.nvim',
 
       -- Useful status updates for LSP.
-      { 'j-hui/fidget.nvim', opts = {} },
+      { 'j-hui/fidget.nvim',       opts = {} },
 
       -- Allows extra capabilities provided by nvim-cmp
       'hrsh7th/cmp-nvim-lsp',
@@ -707,7 +699,7 @@ require('lazy').setup({
             },
           },
           root_dir = require('lspconfig/util').root_pattern('.git', 'Package.swift', 'compile_commands.json'),
-          on_attach = function ()
+          on_attach = function()
             -- vim.cmd([[autocmd BufWritePost *.swift !swift build]])
             vim.cmd([[autocmd BufWritePost *.swift lua require('commands').swift_build()]])
           end
@@ -892,7 +884,7 @@ require('lazy').setup({
       local elixirls = require("elixir.elixirls")
 
       elixir.setup {
-        nextls = {enable = true},
+        nextls = { enable = true },
         elixirls = {
           enable = true,
           settings = elixirls.settings {
@@ -927,6 +919,7 @@ require('lazy').setup({
     lazy = false,
     name = 'catppuccin',
     opts = {
+      transparent_background = true,
       integrations = {
         aerial = true,
         alpha = true,
@@ -958,6 +951,9 @@ require('lazy').setup({
         noice = true,
         notify = true,
         semantic_tokens = true,
+        snacks = {
+          enabled = true
+        },
         telescope = true,
         treesitter = true,
         treesitter_context = true,
@@ -1015,6 +1011,21 @@ require('lazy').setup({
       --  Check out: https://github.com/echasnovski/mini.nvim
     end,
   },
+
+  -- Winbar
+  {
+    "utilyre/barbecue.nvim",
+    name = "barbecue",
+    version = "*",
+    dependencies = {
+      "SmiteshP/nvim-navic",
+      "nvim-tree/nvim-web-devicons", -- optional dependency
+    },
+    opts = {
+      -- configurations go here
+    },
+  },
+
   { -- Highlight, edit, and navigate code
     'nvim-treesitter/nvim-treesitter',
     build = ':TSUpdate',
