@@ -156,7 +156,14 @@ vim.opt.cursorline = true
 -- Minimal number of screen lines to keep above and below the cursor.
 vim.opt.scrolloff = 10
 
-pcall(vim.api.nvim_set_option_value, 'winbar', "%m%f", { scope = 'local' })
+-- code folding
+vim.o.foldcolumn = '1' -- '0' is not bad
+vim.o.foldlevel = 99   -- Using ufo provider need a large value, feel free to decrease the value
+vim.o.foldlevelstart = 99
+vim.o.foldenable = true
+
+
+-- pcall(vim.api.nvim_set_option_value, 'winbar', "%m%f", { scope = 'local' })
 
 -- [[ Basic Keymaps ]]
 --  See `:help vim.keymap.set()`
@@ -459,6 +466,18 @@ require('lazy').setup({
 
       -- Allows extra capabilities provided by nvim-cmp
       'hrsh7th/cmp-nvim-lsp',
+
+      {
+        'kevinhwang91/nvim-ufo',
+        opts = {},
+        dependencies = 'kevinhwang91/promise-async',
+        setup = function()
+          -- Using ufo provider need remap `zR` and `zM`.
+          vim.keymap.set('n', 'zR', require('ufo').openAllFolds)
+          vim.keymap.set('n', 'zM', require('ufo').closeAllFolds)
+          require('ufo').setup {}
+        end
+      },
     },
     opts = {
       setup = {
@@ -614,6 +633,11 @@ require('lazy').setup({
       --  So, we create new capabilities with nvim cmp, and then broadcast that to the servers.
       local capabilities = vim.lsp.protocol.make_client_capabilities()
       capabilities = vim.tbl_deep_extend('force', capabilities, require('cmp_nvim_lsp').default_capabilities())
+      -- ufo
+      capabilities.textDocument.foldingRange = {
+        dynamicRegistration = false,
+        lineFoldingOnly = true
+      }
 
       -- Enable the following language servers
       --  Feel free to add/remove any LSPs that you want here. They will automatically be installed.
@@ -884,7 +908,7 @@ require('lazy').setup({
       local elixirls = require("elixir.elixirls")
 
       elixir.setup {
-        nextls = { enable = true },
+        nextls = { enable = false },
         elixirls = {
           enable = true,
           settings = elixirls.settings {
@@ -1098,7 +1122,7 @@ require('lazy').setup({
           },
           selection_modes = {
             ["@parameter.outer"] = "v", -- charwise
-            ["@function.outer"] = "V", -- linewise
+            ["@function.outer"] = "V",  -- linewise
             ["@class.outer"] = "<c-v>", -- blockwise
           },
           include_surrounding_whitespace = false,
