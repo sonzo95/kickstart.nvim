@@ -677,7 +677,30 @@ require('lazy').setup({
           },
         },
 
-        rust_analyzer = {},
+        rust_analyzer = {
+          settings = {
+            ["rust-analyzer"] = {
+              imports = {
+                granularity = {
+                  group = "module",
+                },
+                prefix = "self",
+              },
+              cargo = {
+                allFeatures = true,
+                buildScripts = {
+                  enable = true
+                },
+              },
+              procMacro = {
+                enable = true
+              },
+              checkOnSave = {
+                command = "clippy",
+              },
+            }
+          }
+        },
       }
 
       -- Ensure the servers and tools above are installed
