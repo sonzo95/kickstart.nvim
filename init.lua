@@ -917,6 +917,16 @@ require('lazy').setup({
           { name = 'luasnip' },
           { name = 'path' },
         },
+        window = {
+          completion = {
+            border = { '╭', '─', '╮', '│', '╯', '─', '╰', '│' },
+            winhighlight = 'Normal:CmpPmenu,FloatBorder:CmpBorder,CursorLine:PmenuSel,Search:None',
+          },
+          documentation = {
+            border = { '╭', '─', '╮', '│', '╯', '─', '╰', '│' },
+            winhighlight = 'Normal:CmpPmenu,FloatBorder:CmpBorder,CursorLine:PmenuSel,Search:None',
+          },
+        },
       }
     end,
   },
@@ -971,7 +981,13 @@ require('lazy').setup({
       integrations = {
         aerial = true,
         alpha = true,
-        cmp = true,
+        cmp = {
+          enabled = true,
+          border = {
+            completion = true,
+            documentation = true,
+          },
+        },
         dashboard = true,
         flash = true,
         grug_far = true,
