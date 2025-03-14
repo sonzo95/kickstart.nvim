@@ -158,10 +158,9 @@ vim.opt.scrolloff = 10
 
 -- code folding
 vim.o.foldcolumn = '1' -- '0' is not bad
-vim.o.foldlevel = 99   -- Using ufo provider need a large value, feel free to decrease the value
+vim.o.foldlevel = 99 -- Using ufo provider need a large value, feel free to decrease the value
 vim.o.foldlevelstart = 99
 vim.o.foldenable = true
-
 
 -- pcall(vim.api.nvim_set_option_value, 'winbar', "%m%f", { scope = 'local' })
 
@@ -275,7 +274,7 @@ require('lazy').setup({
   -- Then, because we use the `opts` key (recommended), the configuration runs
   -- after the plugin has been loaded as `require(MODULE).setup(opts)`.
 
-  {                     -- Useful plugin to show you pending keybinds.
+  { -- Useful plugin to show you pending keybinds.
     'folke/which-key.nvim',
     event = 'VimEnter', -- Sets the loading event to 'VimEnter'
     opts = {
@@ -322,7 +321,7 @@ require('lazy').setup({
       -- Document existing key chains
       spec = {
         { '<leader>b', group = '[B]uffer' },
-        { '<leader>c', group = '[C]ode',         mode = { 'n', 'x' } },
+        { '<leader>c', group = '[C]ode', mode = { 'n', 'x' } },
         { '<leader>d', group = '[D]ocument' },
         { '<leader>f', group = '[F]ind' },
         { '<leader>g', group = '[G]it' },
@@ -330,7 +329,7 @@ require('lazy').setup({
         { '<leader>s', group = '[S]earch' },
         { '<leader>t', group = '[T]oggle' },
         { '<leader>u', group = 'Snacks settings' },
-        { '<leader>h', group = 'Git [H]unk',     mode = { 'n', 'v' } },
+        { '<leader>h', group = 'Git [H]unk', mode = { 'n', 'v' } },
       },
     },
   },
@@ -364,7 +363,7 @@ require('lazy').setup({
       { 'nvim-telescope/telescope-ui-select.nvim' },
 
       -- Useful for getting pretty icons, but requires a Nerd Font.
-      { 'nvim-tree/nvim-web-devicons',            enabled = vim.g.have_nerd_font },
+      { 'nvim-tree/nvim-web-devicons', enabled = vim.g.have_nerd_font },
     },
     config = function()
       -- Telescope is a fuzzy finder that comes with a lot of different things that
@@ -462,7 +461,7 @@ require('lazy').setup({
       'WhoIsSethDaniel/mason-tool-installer.nvim',
 
       -- Useful status updates for LSP.
-      { 'j-hui/fidget.nvim',       opts = {} },
+      { 'j-hui/fidget.nvim', opts = {} },
 
       -- Allows extra capabilities provided by nvim-cmp
       'hrsh7th/cmp-nvim-lsp',
@@ -476,7 +475,7 @@ require('lazy').setup({
           vim.keymap.set('n', 'zR', require('ufo').openAllFolds)
           vim.keymap.set('n', 'zM', require('ufo').closeAllFolds)
           require('ufo').setup {}
-        end
+        end,
       },
     },
     opts = {
@@ -636,7 +635,7 @@ require('lazy').setup({
       -- ufo
       capabilities.textDocument.foldingRange = {
         dynamicRegistration = false,
-        lineFoldingOnly = true
+        lineFoldingOnly = true,
       }
 
       -- Enable the following language servers
@@ -679,28 +678,30 @@ require('lazy').setup({
 
         rust_analyzer = {
           settings = {
-            ["rust-analyzer"] = {
+            ['rust-analyzer'] = {
               imports = {
                 granularity = {
-                  group = "module",
+                  group = 'module',
                 },
-                prefix = "self",
+                prefix = 'self',
               },
               cargo = {
                 allFeatures = true,
                 buildScripts = {
-                  enable = true
+                  enable = true,
                 },
               },
               procMacro = {
-                enable = true
+                enable = true,
               },
               checkOnSave = {
-                command = "clippy",
+                command = 'clippy',
               },
-            }
-          }
+            },
+          },
         },
+
+        phpactor = {},
       }
 
       -- Ensure the servers and tools above are installed
@@ -748,8 +749,8 @@ require('lazy').setup({
           root_dir = require('lspconfig/util').root_pattern('.git', 'Package.swift', 'compile_commands.json'),
           on_attach = function()
             -- vim.cmd([[autocmd BufWritePost *.swift !swift build]])
-            vim.cmd([[autocmd BufWritePost *.swift lua require('commands').swift_build()]])
-          end
+            vim.cmd [[autocmd BufWritePost *.swift lua require('commands').swift_build()]]
+          end,
         },
       }
 
@@ -923,12 +924,12 @@ require('lazy').setup({
   -- Elixir setup --
 
   {
-    "elixir-tools/elixir-tools.nvim",
-    version = "*",
-    event = { "BufReadPre", "BufNewFile" },
+    'elixir-tools/elixir-tools.nvim',
+    version = '*',
+    event = { 'BufReadPre', 'BufNewFile' },
     config = function()
-      local elixir = require("elixir")
-      local elixirls = require("elixir.elixirls")
+      local elixir = require 'elixir'
+      local elixirls = require 'elixir.elixirls'
 
       elixir.setup {
         nextls = { enable = false },
@@ -945,12 +946,12 @@ require('lazy').setup({
           -- end,
         },
         projectionist = {
-          enable = true
-        }
+          enable = true,
+        },
       }
     end,
     dependencies = {
-      "nvim-lua/plenary.nvim",
+      'nvim-lua/plenary.nvim',
     },
   },
 
@@ -986,20 +987,20 @@ require('lazy').setup({
         native_lsp = {
           enabled = true,
           underlines = {
-            errors = { "undercurl" },
-            hints = { "undercurl" },
-            warnings = { "undercurl" },
-            information = { "undercurl" },
+            errors = { 'undercurl' },
+            hints = { 'undercurl' },
+            warnings = { 'undercurl' },
+            information = { 'undercurl' },
           },
         },
-        navic = { enabled = true, custom_bg = "lualine" },
+        navic = { enabled = true, custom_bg = 'lualine' },
         neotest = true,
         neotree = true,
         noice = true,
         notify = true,
         semantic_tokens = true,
         snacks = {
-          enabled = true
+          enabled = true,
         },
         telescope = true,
         treesitter = true,
@@ -1016,6 +1017,13 @@ require('lazy').setup({
       -- You can configure highlights by doing something like:
       vim.cmd.hi 'Comment gui=none'
     end,
+  },
+
+  {
+    'folke/tokyonight.nvim',
+    lazy = false,
+    priority = 1000,
+    opts = {},
   },
 
   -- Highlight todo, notes, etc in comments
@@ -1061,12 +1069,12 @@ require('lazy').setup({
 
   -- Winbar
   {
-    "utilyre/barbecue.nvim",
-    name = "barbecue",
-    version = "*",
+    'utilyre/barbecue.nvim',
+    name = 'barbecue',
+    version = '*',
     dependencies = {
-      "SmiteshP/nvim-navic",
-      "nvim-tree/nvim-web-devicons", -- optional dependency
+      'SmiteshP/nvim-navic',
+      'nvim-tree/nvim-web-devicons', -- optional dependency
     },
     opts = {
       -- configurations go here
@@ -1079,7 +1087,7 @@ require('lazy').setup({
     main = 'nvim-treesitter.configs', -- Sets main module to use for opts
     -- [[ Configure Treesitter ]] See `:help nvim-treesitter`
     dependencies = {
-      "nvim-treesitter/nvim-treesitter-textobjects",
+      'nvim-treesitter/nvim-treesitter-textobjects',
     },
     opts = {
       ensure_installed = {
@@ -1117,36 +1125,36 @@ require('lazy').setup({
       incremental_selection = {
         enable = true,
         keymaps = {
-          init_selection = "<C-p>",
-          node_incremental = "<C-p>",
+          init_selection = '<C-p>',
+          node_incremental = '<C-p>',
           scope_incremental = false,
-          node_decremental = "<bs>",
+          node_decremental = '<bs>',
         },
       },
       textobjects = {
         lsp_interop = {
           enable = true,
-          border = "rounded",
+          border = 'rounded',
           floating_preview_opts = {},
           peek_definition_code = {
-            ["<leader>co"] = { query = "@class.outer", desc = "Peek class", silent = true },
-            ["<leader>cp"] = { query = "@function.outer", desc = "Peek function", silent = true },
+            ['<leader>co'] = { query = '@class.outer', desc = 'Peek class', silent = true },
+            ['<leader>cp'] = { query = '@function.outer', desc = 'Peek function', silent = true },
           },
         },
         select = {
           enable = true,
           lookahead = true,
           keymaps = {
-            ["af"] = "@function.outer",
-            ["if"] = "@function.inner",
-            ["ac"] = "@class.outer",
-            ["ic"] = { query = "@class.inner", desc = "Select inner part of a class region" },
-            ["as"] = { query = "@scope", query_group = "locals", desc = "Select language scope" },
+            ['af'] = '@function.outer',
+            ['if'] = '@function.inner',
+            ['ac'] = '@class.outer',
+            ['ic'] = { query = '@class.inner', desc = 'Select inner part of a class region' },
+            ['as'] = { query = '@scope', query_group = 'locals', desc = 'Select language scope' },
           },
           selection_modes = {
-            ["@parameter.outer"] = "v", -- charwise
-            ["@function.outer"] = "V",  -- linewise
-            ["@class.outer"] = "<c-v>", -- blockwise
+            ['@parameter.outer'] = 'v', -- charwise
+            ['@function.outer'] = 'V', -- linewise
+            ['@class.outer'] = '<c-v>', -- blockwise
           },
           include_surrounding_whitespace = false,
         },
