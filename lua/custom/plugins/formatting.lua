@@ -6,8 +6,10 @@ return {
     local conform = require 'conform'
     conform.setup {
       formatters_by_ft = {
+        -- not from Mason
         elixir = { 'mix' },
         lua = { 'stylua' },
+        -- not from Mason
         rust = { 'rustfmt' },
         php = { 'php_cs_fixer' },
       },
