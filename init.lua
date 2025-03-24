@@ -478,23 +478,6 @@ require('lazy').setup({
         end,
       },
     },
-    opts = {
-      setup = {
-        -- disable ts_ls formatter in order to use prettier on save and <leader>f
-        -- ts_ls = function(_, opts)
-        -- require('lazyvim.util').on_attach(function(client, buffer)
-        -- if client.name == 'ts_ls' then
-        -- client.server_capabilities.documentFormattingProvider = false
-        -- end
-        -- if client.name == 'prettier' then
-        -- client.server_capabilities.documentFormattingProvider = true
-        -- end
-        --   end)
-        --  require('typescript').setup { server = opts }
-        --  return true
-        --end,
-      },
-    },
     config = function()
       -- Brief aside: **What is LSP?**
       --
@@ -741,6 +724,8 @@ require('lazy').setup({
             },
           },
         },
+
+        elixirls = {},
       }
 
       -- Ensure the servers and tools above are installed
@@ -935,37 +920,37 @@ require('lazy').setup({
 
   -- Elixir setup --
 
-  {
-    'elixir-tools/elixir-tools.nvim',
-    version = '*',
-    event = { 'BufReadPre', 'BufNewFile' },
-    config = function()
-      local elixir = require 'elixir'
-      local elixirls = require 'elixir.elixirls'
-
-      elixir.setup {
-        nextls = { enable = false },
-        elixirls = {
-          enable = true,
-          settings = elixirls.settings {
-            dialyzerEnabled = true,
-            enableTestLenses = false,
-          },
-          -- on_attach = function(client, bufnr)
-          --vim.keymap.set("n", "<space>fp", ":ElixirFromPipe<cr>", { buffer = true, noremap = true })
-          --vim.keymap.set("n", "<space>tp", ":ElixirToPipe<cr>", { buffer = true, noremap = true })
-          --vim.keymap.set("v", "<space>em", ":ElixirExpandMacro<cr>", { buffer = true, noremap = true })
-          -- end,
-        },
-        projectionist = {
-          enable = true,
-        },
-      }
-    end,
-    dependencies = {
-      'nvim-lua/plenary.nvim',
-    },
-  },
+  -- {
+  --   'elixir-tools/elixir-tools.nvim',
+  --   version = '*',
+  --   event = { 'BufReadPre', 'BufNewFile' },
+  --   config = function()
+  --     local elixir = require 'elixir'
+  --     local elixirls = require 'elixir.elixirls'
+  --
+  --     elixir.setup {
+  --       nextls = { enable = false },
+  --       elixirls = {
+  --         enable = true,
+  --         settings = elixirls.settings {
+  --           dialyzerEnabled = true,
+  --           enableTestLenses = false,
+  --         },
+  --         -- on_attach = function(client, bufnr)
+  --         --vim.keymap.set("n", "<space>fp", ":ElixirFromPipe<cr>", { buffer = true, noremap = true })
+  --         --vim.keymap.set("n", "<space>tp", ":ElixirToPipe<cr>", { buffer = true, noremap = true })
+  --         --vim.keymap.set("v", "<space>em", ":ElixirExpandMacro<cr>", { buffer = true, noremap = true })
+  --         -- end,
+  --       },
+  --       projectionist = {
+  --         enable = true,
+  --       },
+  --     }
+  --   end,
+  --   dependencies = {
+  --     'nvim-lua/plenary.nvim',
+  --   },
+  -- },
 
   -- THEME --
 
