@@ -14,7 +14,7 @@ return {
       preset = 'default',
       ['<C-.>'] = {
         function(cmp)
-          cmp.show { providers = { 'snippets' } }
+          cmp.show()
         end,
       },
     },
@@ -25,8 +25,36 @@ return {
     },
 
     completion = {
+      ghost_text = { enabled = true },
+      list = {
+        selection = {
+          preselect = true,
+          auto_insert = false,
+        },
+      },
       documentation = {
         auto_show = true,
+      },
+      menu = {
+        draw = {
+          padding = 0,
+          columns = { { 'kind_icon', gap = 1 }, { gap = 1, 'label' }, { 'kind', gap = 2 } },
+          components = {
+            kind_icon = {
+              text = function(ctx)
+                return ' ' .. ctx.kind_icon .. ' '
+              end,
+              highlight = function(ctx)
+                return 'BlinkCmpKindIcon' .. ctx.kind
+              end,
+            },
+            kind = {
+              text = function(ctx)
+                return ' ' .. ctx.kind .. ' '
+              end,
+            },
+          },
+        },
       },
     },
 

@@ -163,6 +163,7 @@ vim.o.foldlevelstart = 99
 vim.o.foldenable = true
 
 vim.o.winborder = 'single'
+vim.lsp.inlay_hint.enable(true)
 
 -- [[ Basic Keymaps ]]
 --  See `:help vim.keymap.set()`
@@ -637,3 +638,5 @@ require('lazy').setup({
 
 -- The line beneath this is called `modeline`. See `:help modeline`
 -- vim: ts=2 sts=2 sw=2 et
+
+-- require 'kiex'
