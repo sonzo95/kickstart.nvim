@@ -167,6 +167,7 @@ vim.lsp.inlay_hint.enable(true)
 
 -- [[ Basic Keymaps ]]
 --  See `:help vim.keymap.set()`
+-- INFO: See `:help map-table` to see all modes available
 
 -- Clear highlights on search when pressing <Esc> in normal mode
 --  See `:help hlsearch`
@@ -194,6 +195,10 @@ vim.keymap.set('n', '<C-h>', '<C-w><C-h>', { desc = 'Move focus to the left wind
 vim.keymap.set('n', '<C-l>', '<C-w><C-l>', { desc = 'Move focus to the right window' })
 vim.keymap.set('n', '<C-j>', '<C-w><C-j>', { desc = 'Move focus to the lower window' })
 vim.keymap.set('n', '<C-k>', '<C-w><C-k>', { desc = 'Move focus to the upper window' })
+
+-- search for current selection in buffer
+-- https://superuser.com/questions/41378/how-to-search-for-selected-text-in-vim
+vim.keymap.set('x', '<C-f>', 'y/\\V<C-r>"<CR>', { desc = 'Search current selection' })
 
 -- Don't override register when pasting over visual selection
 vim.keymap.set('x', 'p', function()
