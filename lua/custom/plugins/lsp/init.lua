@@ -59,6 +59,7 @@ return {
         require('ufo').setup {}
       end,
     },
+    { 'Chaitanyabsprip/fastaction.nvim', opts = {} },
   },
   config = function()
     -- Brief aside: **What is LSP?**
@@ -134,7 +135,9 @@ return {
 
         -- Execute a code action, usually your cursor needs to be on top of an error
         -- or a suggestion from your LSP for this to activate.
-        map('<leader>ca', vim.lsp.buf.code_action, '[C]ode [A]ction', { 'n', 'x' })
+        -- vim.keymap.set(
+        -- map('<leader>ca', vim.lsp.buf.code_action, '[C]ode [A]ction', { 'n', 'x' })
+        map('<leader>ca', '<cmd>lua require("fastaction").code_action()<CR>', '[C]ode [A]ction', { 'n', 'x' })
 
         -- WARN: This is not Goto Definition, this is Goto Declaration.
         --  For example, in C this would take you to the header.
