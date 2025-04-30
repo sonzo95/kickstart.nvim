@@ -30,14 +30,6 @@ return {
     },
   },
   {
-    'MeanderingProgrammer/render-markdown.nvim',
-    optional = true,
-    opts = {
-      file_types = { 'markdown', 'copilot-chat' },
-    },
-    ft = { 'markdown', 'copilot-chat' },
-  },
-  {
     'CopilotC-Nvim/CopilotChat.nvim',
     dependencies = {
       { 'github/copilot.vim' }, -- or zbirenbaum/copilot.lua
@@ -54,7 +46,7 @@ return {
         -- Use tab for completion
         complete = {
           detail = 'Use @<Tab> or /<Tab> for options.',
-          insert = '<Tab>',
+          insert = '<C-y>',
         },
         -- Close the chat
         close = {
@@ -111,19 +103,19 @@ return {
       end, { nargs = '*', range = true })
 
       -- Custom buffer for CopilotChat
-      vim.api.nvim_create_autocmd('BufEnter', {
-        pattern = 'copilot-*',
-        callback = function()
-          vim.opt_local.relativenumber = true
-          vim.opt_local.number = true
-
-          -- Get current filetype and set it to markdown if the current filetype is copilot-chat
-          local ft = vim.bo.filetype
-          if ft == 'copilot-chat' then
-            vim.bo.filetype = 'markdown'
-          end
-        end,
-      })
+      -- vim.api.nvim_create_autocmd('BufEnter', {
+      --   pattern = 'copilot-*',
+      --   callback = function()
+      --     vim.opt_local.relativenumber = true
+      --     vim.opt_local.number = true
+      --
+      --     -- Get current filetype and set it to markdown if the current filetype is copilot-chat
+      --     local ft = vim.bo.filetype
+      --     if ft == 'copilot-chat' then
+      --       vim.bo.filetype = 'markdown'
+      --     end
+      --   end,
+      -- })
     end,
     event = 'VeryLazy',
     keys = {
