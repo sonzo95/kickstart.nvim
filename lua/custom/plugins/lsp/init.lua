@@ -59,6 +59,7 @@ return {
         require('ufo').setup {}
       end,
     },
+
     { 'Chaitanyabsprip/fastaction.nvim', opts = {} },
   },
   config = function()
@@ -319,6 +320,8 @@ return {
 
       elixirls = {},
 
+      basedpyright = {},
+
       ts_ls = {},
     }
 
@@ -343,6 +346,7 @@ return {
       'gofumpt',
       'goimports-reviser',
       'golines',
+      'flake8',
       'prettier',
       'prettierd',
     })

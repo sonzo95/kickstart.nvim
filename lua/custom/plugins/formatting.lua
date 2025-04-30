@@ -2,8 +2,9 @@
 
 return {
   'stevearc/conform.nvim',
+  dependencies = { 'williamboman/mason.nvim' },
   event = { 'BufWritePre' },
-  cmd = { 'ConformInfo' },
+  cmd = { 'ConformInfo', 'ConformFormat' },
 
   keys = {
     {
@@ -23,11 +24,12 @@ return {
       -- not from Mason
       rust = { 'rustfmt' },
       php = { 'php_cs_fixer' },
-      javascript = { { 'prettierd', 'prettier' } },
-      typescript = { { 'prettierd', 'prettier' } },
-      tsx = { { 'prettierd', 'prettier' } },
+      javascript = { 'prettierd', 'prettier' },
+      typescript = { 'prettierd', 'prettier' },
+      tsx = { 'prettierd', 'prettier' },
+      python = { 'black', 'isort', stop_after_first = false },
     },
-    notify_on_error = false,
+    notify_on_error = true,
     format_on_save = function(bufnr)
       -- Disable "format_on_save lsp_fallback" for languages that don't
       -- have a well standardized coding style. You can add additional
@@ -40,7 +42,7 @@ return {
         lsp_format_opt = 'fallback'
       end
       return {
-        timeout_ms = 500,
+        timeout_ms = 1000,
         lsp_format = lsp_format_opt,
       }
     end,
@@ -50,6 +52,16 @@ return {
           -- ignores php version compatibilities
           PHP_CS_FIXER_IGNORE_ENV = true,
         },
+      },
+      black = {
+        command = 'poetry',
+        args = { 'run', 'black', '--quiet', '-' },
+        stdin = true,
+      },
+      isort = {
+        command = 'poetry',
+        args = { 'run', 'isort', '--profile', 'black', '--quiet', '-' },
+        stdin = true,
       },
     },
     async = true,
