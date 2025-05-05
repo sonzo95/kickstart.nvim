@@ -9,6 +9,11 @@ return {
     lazy = false,
     name = 'catppuccin',
     opts = {
+      dim_inactive = {
+        enabled = true, -- dims the background color of inactive window
+        shade = 'dark',
+        percentage = 0.15, -- percentage of the shade to apply to the inactive window
+      },
       transparent_background = true,
       integrations = {
         aerial = true,
@@ -35,6 +40,12 @@ return {
         mini = true,
         native_lsp = {
           enabled = true,
+          virtual_text = {
+            information = { 'italic' },
+            warnings = { 'italic' },
+            errors = { 'italic' },
+            hints = { 'italic' },
+          },
           underlines = {
             errors = { 'undercurl' },
             hints = { 'undercurl' },
@@ -44,7 +55,7 @@ return {
         },
         navic = { enabled = true, custom_bg = 'lualine' },
         neotest = true,
-        neotree = true,
+        neotree = false,
         noice = true,
         notify = true,
         semantic_tokens = true,
