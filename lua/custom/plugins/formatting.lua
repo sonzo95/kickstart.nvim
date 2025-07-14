@@ -56,12 +56,10 @@ return {
       black = {
         command = 'poetry',
         args = { 'run', 'black', '--quiet', '-' },
-        stdin = true,
       },
       isort = {
         command = 'poetry',
-        args = { 'run', 'isort', '--profile', 'black', '--quiet', '-' },
-        stdin = true,
+        args = { 'run', 'isort', '-' },
       },
     },
     async = true,
