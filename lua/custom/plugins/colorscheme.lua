@@ -8,6 +8,10 @@ return {
     priority = 1000, -- Make sure to load this before all the other start plugins.
     lazy = false,
     name = 'catppuccin',
+    background = { -- :h background
+      light = 'latte',
+      dark = 'mocha',
+    },
     opts = {
       dim_inactive = {
         enabled = true, -- dims the background color of inactive window
@@ -84,5 +88,11 @@ return {
     lazy = false,
     priority = 1000,
     opts = {},
+  },
+
+  {
+    'lunacookies/vim-colors-xcode',
+    lazy = false,
+    priority = 1000,
   },
 }
