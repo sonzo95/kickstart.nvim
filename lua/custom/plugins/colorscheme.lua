@@ -91,6 +91,15 @@ return {
   },
 
   {
+    'loctvl842/monokai-pro.nvim',
+    lazy = false,
+    priority = 1000,
+    opts = {
+      filter = 'ristretto',
+    },
+  },
+
+  {
     'lunacookies/vim-colors-xcode',
     lazy = false,
     priority = 1000,
