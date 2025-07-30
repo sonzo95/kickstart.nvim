@@ -119,6 +119,10 @@ vim.keymap.set('x', 'p', function()
   return 'pgv"' .. vim.v.register .. 'y'
 end, { remap = false, expr = true })
 
+vim.keymap.set('n', '<leader>k', function()
+  vim.diagnostic.open_float()
+end, { desc = 'Open diagnostics of current line' })
+
 -- [[ Basic Autocommands ]]
 --  See `:help lua-guide-autocommands`
 
