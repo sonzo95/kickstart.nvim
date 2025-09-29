@@ -42,7 +42,7 @@ return {
         lsp_format_opt = 'fallback'
       end
       return {
-        timeout_ms = 1000,
+        timeout_ms = 3000, -- isort and black are slow af
         lsp_format = lsp_format_opt,
       }
     end,
@@ -59,7 +59,7 @@ return {
       },
       isort = {
         command = 'poetry',
-        args = { 'run', 'isort', '-' },
+        args = { 'run', 'isort', '--profile', 'black', '-' },
       },
     },
     async = true,
