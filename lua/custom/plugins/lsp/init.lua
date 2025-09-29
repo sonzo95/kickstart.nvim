@@ -4,7 +4,7 @@
 ---@param capabilities lsp.ClientCapabilities
 local function setup_server(name, config, capabilities)
   config.capabilities = vim.tbl_deep_extend('force', {}, capabilities, config.capabilities or {})
-  require('lspconfig')[name].setup(config)
+  vim.lsp.config(name, config)
 end
 
 ---Extends given server configs with capabilities and sets them up on lspcongig
