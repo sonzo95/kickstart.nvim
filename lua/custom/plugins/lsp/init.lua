@@ -28,8 +28,6 @@ local function make_default_capabilities()
     dynamicRegistration = false,
     lineFoldingOnly = true,
   }
-  -- file tree
-  capabilities = vim.tbl_deep_extend('force', capabilities, require('lsp-file-operations').default_capabilities() or {})
   return capabilities
 end
 
