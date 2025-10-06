@@ -150,6 +150,18 @@ if not (vim.uv or vim.loop).fs_stat(lazypath) then
 end ---@diagnostic disable-next-line: undefined-field
 vim.opt.rtp:prepend(lazypath)
 
+vim.api.nvim_create_user_command('CopyRelativePath', function()
+  local path = vim.fn.expand '%:.'
+  vim.fn.setreg('+', path)
+  vim.notify('Copied "' .. path .. '" to the clipboard!')
+end, {})
+
+vim.api.nvim_create_user_command('CopyPath', function()
+  local path = vim.fn.expand '%:p'
+  vim.fn.setreg('+', path)
+  vim.notify('Copied "' .. path .. '" to the clipboard!')
+end, {})
+
 -- [[ Configure and install plugins ]]
 --
 --  To check the current status of your plugins, run
