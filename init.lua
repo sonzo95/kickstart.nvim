@@ -138,6 +138,22 @@ vim.api.nvim_create_autocmd('TextYankPost', {
   end,
 })
 
+vim.api.nvim_create_user_command('Code', function()
+  if vim.fn.executable 'code' == 1 then
+    local file = vim.fn.expand '%:p'
+    if file == '' then
+      vim.notify('Not in a file buffer.', vim.log.levels.WARN)
+      return
+    end
+    local line = vim.fn.line '.'
+    local cwd = vim.fn.getcwd()
+    vim.fn.jobstart { 'code', '-n', '-g', file .. ':' .. line, cwd }
+    vim.notify 'Opened in VSCode.'
+  else
+    vim.notify('Error: "code" command not found.', vim.log.levels.ERROR)
+  end
+end, { desc = 'Open current file in VS Code' })
+
 -- [[ Install `lazy.nvim` plugin manager ]]
 --    See `:help lazy.nvim.txt` or https://github.com/folke/lazy.nvim for more info
 local lazypath = vim.fn.stdpath 'data' .. '/lazy/lazy.nvim'
