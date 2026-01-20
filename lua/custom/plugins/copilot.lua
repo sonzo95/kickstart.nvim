@@ -239,6 +239,12 @@ return {
         desc = "Sidekick Select CLI",
       },
       {
+        "<leader>mt",
+        function() require("sidekick.cli").send({ msg = "{this}" }) end,
+        mode = { "x", "n" },
+        desc = "Send This",
+      },
+      {
         "<leader>ms",
         function() require("sidekick.cli").send({ selection = true }) end,
         mode = { "v" },
