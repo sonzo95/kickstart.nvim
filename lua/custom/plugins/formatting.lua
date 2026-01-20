@@ -27,7 +27,8 @@ return {
       javascript = { 'prettierd', 'prettier' },
       typescript = { 'prettierd', 'prettier' },
       tsx = { 'prettierd', 'prettier' },
-      python = { 'black', 'isort', stop_after_first = false },
+      html = { 'prettierd', 'prettier' },
+      -- python = { 'black', 'isort', stop_after_first = false },
     },
     notify_on_error = true,
     format_on_save = function(bufnr)

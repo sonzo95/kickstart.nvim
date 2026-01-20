@@ -320,7 +320,16 @@ return {
 
       elixirls = {},
 
-      basedpyright = {},
+      basedpyright = {
+        analysis = {
+          autoImportCompletions = true,
+          autoSearchPaths = true,
+          diagnosticMode = 'workspace',
+          typeCheckingMode = 'strict', -- standard, strict, all, off, basic
+        },
+      },
+      -- pyright = {},
+      ruff = {},
 
       ts_ls = {},
     }
