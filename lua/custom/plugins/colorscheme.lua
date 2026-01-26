@@ -100,4 +100,43 @@ return {
     'xiyaowong/transparent.nvim',
     opts = {},
   },
+
+  {
+    'bjarneo/pixel.nvim',
+    priority = 1000,
+  },
+
+  {
+    'sainnhe/gruvbox-material',
+    lazy = false,
+    priority = 1000,
+    config = function()
+      -- Optionally configure and load the colorscheme
+      -- directly inside the plugin declaration.
+      vim.g.gruvbox_material_enable_italic = true
+      -- vim.cmd.colorscheme('gruvbox-material')
+    end,
+  },
+
+  {
+    'Mofiqul/vscode.nvim',
+    lazy = false,
+    priority = 1000,
+    opts = {
+      -- Enable transparent background
+      transparent = false,
+
+      -- Enable italic comment
+      italic_comments = true,
+
+      -- Enable italic inlay type hints
+      italic_inlayhints = true,
+
+      -- Underline `@markup.link.*` variants
+      underline_links = true,
+
+      -- Apply theme colors to terminal
+      terminal_colors = true,
+    },
+  },
 }

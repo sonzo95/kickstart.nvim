@@ -594,4 +594,5 @@ require('lazy').setup({
 -- require 'kiex'
 --
 -- vim.cmd.colorscheme 'monokai-pro'
-vim.cmd.colorscheme 'catppuccin-mocha'
+-- vim.cmd.colorscheme 'catppuccin-mocha'
+vim.cmd.colorscheme 'vscode'
