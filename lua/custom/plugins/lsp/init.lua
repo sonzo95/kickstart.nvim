@@ -332,6 +332,9 @@ return {
       ruff = {},
 
       ts_ls = {},
+      yamlls = {},
+
+      buf_ls = {},
     }
 
     -- Ensure the servers and tools above are installed
