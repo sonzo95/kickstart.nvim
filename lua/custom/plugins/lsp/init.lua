@@ -5,6 +5,7 @@
 local function setup_server(name, config, capabilities)
   config.capabilities = vim.tbl_deep_extend('force', {}, capabilities, config.capabilities or {})
   vim.lsp.config(name, config)
+  vim.lsp.enable(name)
 end
 
 ---Extends given server configs with capabilities and sets them up on lspcongig
@@ -37,9 +38,7 @@ return {
   dependencies = {
     -- Automatically install LSPs and related tools to stdpath for Neovim
     -- Mason must be loaded before its dependents so we need to set it up here.
-    -- NOTE: `opts = {}` is the same as calling `require('mason').setup({})`
-    { 'williamboman/mason.nvim', opts = {} },
-    'williamboman/mason-lspconfig.nvim',
+    { 'mason-org/mason.nvim', opts = {} },
     'WhoIsSethDaniel/mason-tool-installer.nvim',
 
     -- completion
@@ -111,7 +110,7 @@ return {
         map('gd', require('telescope.builtin').lsp_definitions, '[G]oto [D]efinition (impl)')
 
         -- Find references for the word under your cursor.
-        map('gr', require('telescope.builtin').lsp_references, '[G]oto [R]eferences')
+        map('grr', require('telescope.builtin').lsp_references, '[G]oto [R]eferences')
 
         -- Jump to the implementation of the word under your cursor.
         --  Useful when your language has ways of declaring types without an actual implementation.
@@ -132,13 +131,13 @@ return {
 
         -- Rename the variable under your cursor.
         --  Most Language Servers support renaming across files, etc.
-        map('<leader>cr', vim.lsp.buf.rename, '[R]ename symbol')
+        map('grn', vim.lsp.buf.rename, '[R]ename symbol')
 
         -- Execute a code action, usually your cursor needs to be on top of an error
         -- or a suggestion from your LSP for this to activate.
         -- vim.keymap.set(
         -- map('<leader>ca', vim.lsp.buf.code_action, '[C]ode [A]ction', { 'n', 'x' })
-        map('<leader>ca', '<cmd>lua require("fastaction").code_action()<CR>', '[C]ode [A]ction', { 'n', 'x' })
+        map('ga', '<cmd>lua require("fastaction").code_action()<CR>', '[C]ode [A]ction', { 'n', 'x' })
 
         -- WARN: This is not Goto Definition, this is Goto Declaration.
         --  For example, in C this would take you to the header.
@@ -236,10 +235,31 @@ return {
       -- ts_ls = {},
       --
 
-      lua_ls = {
+      ['lua-language-server'] = {
         -- cmd = { ... },
         -- filetypes = { ... },
         -- capabilities = {},
+        on_init = function(client)
+          if client.workspace_folders then
+            local path = client.workspace_folders[1].name
+            if path ~= vim.fn.stdpath 'config' and (vim.uv.fs_stat(path .. '/.luarc.json') or vim.uv.fs_stat(path .. '/.luarc.jsonc')) then
+              return
+            end
+          end
+
+          client.config.settings.Lua = vim.tbl_deep_extend('force', client.config.settings.Lua, {
+            runtime = {
+              version = 'LuaJIT',
+              path = { 'lua/?.lua', 'lua/?/init.lua' },
+            },
+            workspace = {
+              checkThirdParty = false,
+              -- NOTE: this is a lot slower and will cause issues when working on your own configuration.
+              --  See https://github.com/neovim/nvim-lspconfig/issues/3189
+              library = vim.api.nvim_get_runtime_file('', true),
+            },
+          })
+        end,
         settings = {
           Lua = {
             completion = {
@@ -252,7 +272,7 @@ return {
       },
 
       -- https://rust-analyzer.github.io/book/configuration.html
-      rust_analyzer = {
+      ['rust-analyzer'] = {
         settings = {
           ['rust-analyzer'] = {
             imports = {
@@ -277,48 +297,59 @@ return {
         },
       },
 
-      phpactor = {},
+      phpactor = {
+        init_options = {
+          ['language_server_code_transform.import_globals'] = true,
 
-      gopls = {
-        cmd = { 'gopls' },
-        filetypes = { 'go', 'gomod', 'gowork', 'gotmpl' },
-        root_dir = require('lspconfig/util').root_pattern('go.work', 'go.mod', '.git'),
-        settings = {
-          gopls = {
-            completeUnimported = true,
-            usePlaceholders = true,
-            analyses = {
-              nilness = true,
-              unusedparams = true,
-              unusedwrite = true,
-              useany = true,
-            },
-            experimentalPostfixCompletions = true,
-            gofumpt = true,
-            -- staticcheck = true,
-            --
-            -- DISABLED because gopls doesn't invoke the staticcheck binary.
-            -- Instead it imports the analyzers directly and this means it can report on issues the binary doesn't.
-            -- But rather than that being a good thing, it can be annoying because you can't then use line directives to ignore the issue if it's not important.
-            -- So instead I use null-ls to invoke the staticcheck binary.
-            -- https://github.com/golang/go/issues/36373#issuecomment-570643870
-            --
-            -- See also my longer explanation of issues here:
-            -- https://github.com/golangci/golangci-lint/issues/741#issuecomment-1488116634
-            hints = {
-              assignVariableTypes = true,
-              compositeLiteralFields = true,
-              compositeLiteralTypes = true,
-              constantValues = true,
-              functionTypeParameters = true,
-              parameterNames = true,
-              rangeVariableTypes = true,
-            },
-          },
+          ['language_server_phpstan.enabled'] = true,
+          ['language_server_phpstan.path'] = './bin/phpstan',
+          ['language_server_php_cs_fixer.enabled'] = true,
+          ['language_server_php_cs_fixer.path'] = './bin/php-cs-fixer',
+          ['language_server_php_cs_psalm.enabled'] = true,
+          ['language_server_php_cs_psalm.path'] = './bin/psalm',
         },
       },
 
-      elixirls = {},
+      -- gopls = {
+      --   cmd = { 'gopls' },
+      --   filetypes = { 'go', 'gomod', 'gowork', 'gotmpl' },
+      --   root_dir = require('lspconfig/util').root_pattern('go.work', 'go.mod', '.git'),
+      --   settings = {
+      --     gopls = {
+      --       completeUnimported = true,
+      --       usePlaceholders = true,
+      --       analyses = {
+      --         nilness = true,
+      --         unusedparams = true,
+      --         unusedwrite = true,
+      --         useany = true,
+      --       },
+      --       experimentalPostfixCompletions = true,
+      --       gofumpt = true,
+      --       -- staticcheck = true,
+      --       --
+      --       -- DISABLED because gopls doesn't invoke the staticcheck binary.
+      --       -- Instead it imports the analyzers directly and this means it can report on issues the binary doesn't.
+      --       -- But rather than that being a good thing, it can be annoying because you can't then use line directives to ignore the issue if it's not important.
+      --       -- So instead I use null-ls to invoke the staticcheck binary.
+      --       -- https://github.com/golang/go/issues/36373#issuecomment-570643870
+      --       --
+      --       -- See also my longer explanation of issues here:
+      --       -- https://github.com/golangci/golangci-lint/issues/741#issuecomment-1488116634
+      --       hints = {
+      --         assignVariableTypes = true,
+      --         compositeLiteralFields = true,
+      --         compositeLiteralTypes = true,
+      --         constantValues = true,
+      --         functionTypeParameters = true,
+      --         parameterNames = true,
+      --         rangeVariableTypes = true,
+      --       },
+      --     },
+      --   },
+      -- },
+
+      ['elixir-ls'] = {},
 
       basedpyright = {
         analysis = {
@@ -331,10 +362,27 @@ return {
       -- pyright = {},
       ruff = {},
 
-      ts_ls = {},
-      yamlls = {},
+      ['typescript-language-server'] = {},
 
-      buf_ls = {},
+      ['yaml-language-server'] = {},
+
+      ['buf'] = {},
+    }
+
+    -- Use this list to install servers that are present in your bin path (not installed via Mason)
+    local cli_server_configs = {
+      sourcekit = {
+        workspace = {
+          didChangeWatchedFiles = {
+            dynamicRegistration = true,
+          },
+        },
+        root_dir = require('lspconfig/util').root_pattern('.git', 'Package.swift', 'compile_commands.json'),
+        on_attach = function()
+          -- vim.cmd([[autocmd BufWritePost *.swift !swift build]])
+          vim.cmd [[autocmd BufWritePost *.swift lua require('commands').swift_build()]]
+        end,
+      },
     }
 
     -- Ensure the servers and tools above are installed
@@ -355,9 +403,9 @@ return {
     vim.list_extend(ensure_installed, {
       'stylua', -- Used to format Lua code
       'php-cs-fixer',
-      'gofumpt',
-      'goimports-reviser',
-      'golines',
+      -- 'gofumpt',
+      -- 'goimports-reviser',
+      -- 'golines',
       'flake8',
       'prettier',
       'prettierd',
@@ -365,32 +413,7 @@ return {
     require('mason-tool-installer').setup { ensure_installed = ensure_installed }
 
     local capabilities = make_default_capabilities()
-
-    require('mason-lspconfig').setup {
-      handlers = {
-        function(server_name)
-          local config = mason_server_configs[server_name] or {}
-          setup_server(server_name, config, capabilities)
-        end,
-      },
-    }
-
-    -- Use this list to install servers that are present in your bin path.
-    local cli_server_configs = {
-      sourcekit = {
-        workspace = {
-          didChangeWatchedFiles = {
-            dynamicRegistration = true,
-          },
-        },
-        root_dir = require('lspconfig/util').root_pattern('.git', 'Package.swift', 'compile_commands.json'),
-        on_attach = function()
-          -- vim.cmd([[autocmd BufWritePost *.swift !swift build]])
-          vim.cmd [[autocmd BufWritePost *.swift lua require('commands').swift_build()]]
-        end,
-      },
-    }
-
+    setup_servers(mason_server_configs, capabilities)
     setup_servers(cli_server_configs, capabilities)
   end,
 }
