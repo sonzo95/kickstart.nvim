@@ -38,7 +38,9 @@ return {
   dependencies = {
     -- Automatically install LSPs and related tools to stdpath for Neovim
     -- Mason must be loaded before its dependents so we need to set it up here.
-    { 'mason-org/mason.nvim', opts = {} },
+    -- NOTE: `opts = {}` is the same as calling `require('mason').setup({})`
+    { 'williamboman/mason.nvim', opts = {} },
+    'williamboman/mason-lspconfig.nvim',
     'WhoIsSethDaniel/mason-tool-installer.nvim',
 
     -- completion
@@ -235,7 +237,7 @@ return {
       -- ts_ls = {},
       --
 
-      ['lua-language-server'] = {
+      lua_ls = {
         -- cmd = { ... },
         -- filetypes = { ... },
         -- capabilities = {},
@@ -272,7 +274,7 @@ return {
       },
 
       -- https://rust-analyzer.github.io/book/configuration.html
-      ['rust-analyzer'] = {
+      rust_analyzer = {
         settings = {
           ['rust-analyzer'] = {
             imports = {
@@ -349,7 +351,7 @@ return {
       --   },
       -- },
 
-      ['elixir-ls'] = {},
+      elixirls = {},
 
       basedpyright = {
         analysis = {
@@ -362,11 +364,11 @@ return {
       -- pyright = {},
       ruff = {},
 
-      ['typescript-language-server'] = {},
+      ts_ls = {},
 
-      ['yaml-language-server'] = {},
+      yamlls = {},
 
-      ['buf'] = {},
+      buf_ls = {},
     }
 
     -- Use this list to install servers that are present in your bin path (not installed via Mason)
