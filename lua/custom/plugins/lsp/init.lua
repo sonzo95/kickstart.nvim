@@ -439,6 +439,7 @@ return {
       'flake8',
       'prettier',
       'prettierd',
+      'clang-format',
     })
     require('mason-tool-installer').setup { ensure_installed = ensure_installed }
 

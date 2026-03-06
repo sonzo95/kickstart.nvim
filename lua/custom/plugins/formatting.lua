@@ -29,6 +29,7 @@ return {
       tsx = { 'prettierd', 'prettier' },
       html = { 'prettierd', 'prettier' },
       -- python = { 'black', 'isort', stop_after_first = false },
+      glsl = { 'clang-format' },
     },
     notify_on_error = true,
     format_on_save = function(bufnr)
