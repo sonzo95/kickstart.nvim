@@ -10,6 +10,8 @@ return {
         -- python = { 'ruff' },
         -- python = { 'flake8' },
         php = { 'phpstan' },
+        --INFO: Install `brew install shaderc`
+        glsl = { 'glslc' },
       }
 
       -- To allow other plugins to add linters to require('lint').linters_by_ft,
