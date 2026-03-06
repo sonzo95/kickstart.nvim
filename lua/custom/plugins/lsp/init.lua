@@ -240,7 +240,28 @@ return {
       -- ts_ls = {},
       --
 
-      clangd = {},
+      clangd = {
+        cmd = {
+          'clangd',
+          '--background-index',
+          '--clang-tidy',
+          '--completion-style=detailed',
+          '--function-arg-placeholders',
+          '--header-insertion=iwyu',
+          '--header-insertion-decorators',
+          '--all-scopes-completion',
+          '--cross-file-rename',
+          '--ranking-model=heuristics',
+          '--fallback-style=LLVM',
+        },
+
+        init_options = {
+          clangdFileStatus = true, -- shows file status like CLion
+          usePlaceholders = true,
+          completeUnimported = true,
+          semanticHighlighting = true,
+        },
+      },
       cmake = {},
       glsl_analyzer = {},
 
