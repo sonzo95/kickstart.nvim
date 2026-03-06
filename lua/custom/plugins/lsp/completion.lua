@@ -11,7 +11,7 @@ return {
     --
     -- See :h blink-cmp-config-keymap for defining your own keymap
     keymap = {
-      preset = 'default',
+      preset = 'enter',
       ['<C-.>'] = {
         function(cmp)
           cmp.show()
@@ -25,6 +25,22 @@ return {
     },
 
     completion = {
+      keyword = {
+        range = 'full',
+      },
+      accept = {
+        auto_brackets = {
+          enabled = true,
+        },
+      },
+      menu = {
+        draw = {
+          columns = {
+            { 'label', 'label_description', gap = 1 },
+            { 'kind' },
+          },
+        },
+      },
       list = {
         selection = {
           preselect = true,
@@ -40,7 +56,11 @@ return {
       default = { 'lsp', 'path', 'snippets', 'buffer' },
     },
 
-    fuzzy = { implementation = 'prefer_rust_with_warning' },
+    snippets = {
+      preset = 'luasnip',
+    },
+
+    fuzzy = { implementation = 'prefer_rust_with_warning', use_typo_resistance = true, frecency = { enabled = true }, use_proximity = true },
   },
   opts_extend = { 'sources.default' },
 }
