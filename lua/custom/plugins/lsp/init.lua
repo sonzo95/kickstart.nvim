@@ -379,7 +379,8 @@ return {
       --   },
       -- },
 
-      elixirls = {},
+      -- elixirls = {},
+      expert = {},
 
       basedpyright = {
         analysis = {

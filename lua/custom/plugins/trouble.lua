@@ -10,8 +10,8 @@ return {
     },
     {
       '<leader>qq',
-      '<cmd>Trouble diagnostics toggle filter.buf=0<cr>',
-      desc = 'Buffer Diagnostics (Trouble)',
+      '<cmd>Trouble quickfix toggle<cr>',
+      desc = 'Quickfix (Trouble)',
     },
     {
       '<leader>cs',

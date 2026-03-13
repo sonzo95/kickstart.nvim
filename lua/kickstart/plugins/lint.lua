@@ -1,3 +1,4 @@
+local inspect = require 'vim.inspect'
 return {
 
   { -- Linting
@@ -9,9 +10,65 @@ return {
         -- markdown = { 'markdownlint' },
         -- python = { 'ruff' },
         -- python = { 'flake8' },
+        elixir = { 'dialyxir' },
         php = { 'phpstan' },
         --INFO: Install `brew install shaderc`
         glsl = { 'glslc' },
+      }
+
+      lint.linters.dialyxir = {
+        cmd = 'mix',
+        stdin = false,
+        args = { 'dialyzer', '--quiet', '--format', 'short' }, -- Using a format easily parsable by Nvim
+        stream = 'stderr',
+        ignore_exitcode = true,
+        parser = function(output, bufnr)
+          local diagnostics = {}
+          local qf_list = {}
+
+          -- Get the relative path of your current buffer (e.g., "lib/thresher/my_file.ex")
+          -- This ensures we can match it against Dialyzer's output.
+          local buf_name = vim.fn.fnamemodify(vim.api.nvim_buf_get_name(bufnr), ':.')
+
+          -- Loop through every line of the stderr output
+          for _, line in ipairs(vim.split(output, '\n')) do
+            -- Matches format: "lib/thresher/my_file.ex:14:1: The call..."
+            -- And fallbacks to format: "lib/thresher/my_file.ex:14: The call..."
+
+            local file, lnum, col, message = string.match(line, '^(.+):(%d+):(%d+):%s*(.+)$')
+            if not file then
+              file, lnum, message = string.match(line, '^(.+):(%d+):%s*(.+)$')
+            end
+
+            -- ONLY attach the diagnostic if the error belongs to the file you are currently looking at
+            if file and file == buf_name then
+              table.insert(diagnostics, {
+                source = 'dialyzer',
+                lnum = tonumber(lnum) - 1, -- Neovim's diagnostic API expects 0-indexed line numbers!
+                col = tonumber(col or '0'),
+                message = message,
+                severity = vim.diagnostic.severity.WARN, -- Dialyzer issues are treated as warnings
+              })
+            end
+
+            if file then
+              table.insert(qf_list, {
+                filename = file,
+                lnum = tonumber(lnum),
+                col = tonumber(col or '0'),
+                text = message,
+                type = 'W',
+              })
+            end
+          end
+
+          vim.fn.setqflist({}, ' ', {
+            title = 'Dialyzer Warnings',
+            items = qf_list,
+          })
+
+          return diagnostics
+        end,
       }
 
       -- To allow other plugins to add linters to require('lint').linters_by_ft,
