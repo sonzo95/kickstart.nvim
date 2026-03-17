@@ -9,7 +9,7 @@ return {
         -- markdown = { 'markdownlint' },
         -- python = { 'ruff' },
         -- python = { 'flake8' },
-        elixir = { 'dialyzer' },
+        elixir = { 'dialyzer', 'credo' },
         php = { 'phpstan' },
         -- INFO: Install `brew install shaderc`
         glsl = { 'glslc' },
