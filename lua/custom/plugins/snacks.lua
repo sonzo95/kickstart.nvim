@@ -26,11 +26,11 @@ return {
   keys = {
     -- Top Pickers
     {
-      '<leader>,',
+      '<leader>sf',
       function()
         Snacks.picker.smart()
       end,
-      desc = 'Smart Find Files',
+      desc = 'Find Files',
     },
     {
       '<leader><leader>',
@@ -196,13 +196,6 @@ return {
         Snacks.picker.diagnostics_buffer()
       end,
       desc = 'Buffer Diagnostics',
-    },
-    {
-      '<leader>sf',
-      function()
-        Snacks.picker.files()
-      end,
-      desc = 'Files',
     },
     {
       '<leader>sh',
@@ -404,6 +397,42 @@ return {
       end,
       desc = 'Prev Reference',
       mode = { 'n', 't' },
+    },
+    -- LSP
+    {
+      'gD',
+      function()
+        Snacks.picker.lsp_declarations()
+      end,
+      desc = 'Prev Reference',
+    },
+    {
+      'gd',
+      function()
+        Snacks.picker.lsp_definitions()
+      end,
+      desc = 'Prev Reference',
+    },
+    {
+      'gi',
+      function()
+        Snacks.picker.lsp_implementations()
+      end,
+      desc = 'Prev Reference',
+    },
+    {
+      'grr',
+      function()
+        Snacks.picker.lsp_references()
+      end,
+      desc = 'Prev Reference',
+    },
+    {
+      '<leader>D',
+      function()
+        Snacks.picker.lsp_type_definitions()
+      end,
+      desc = 'Prev Reference',
     },
   },
   init = function()

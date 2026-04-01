@@ -60,7 +60,7 @@ return {
       preset = 'luasnip',
     },
 
-    fuzzy = { implementation = 'prefer_rust_with_warning', use_typo_resistance = true, frecency = { enabled = true }, use_proximity = true },
+    fuzzy = { implementation = 'prefer_rust_with_warning', frecency = { enabled = true }, use_proximity = true },
   },
   opts_extend = { 'sources.default' },
 }
