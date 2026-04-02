@@ -40,13 +40,6 @@ return {
       desc = 'Buffers',
     },
     {
-      '<leader>/',
-      function()
-        Snacks.picker.grep()
-      end,
-      desc = 'Grep',
-    },
-    {
       '<leader>:',
       function()
         Snacks.picker.command_history()
