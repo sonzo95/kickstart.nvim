@@ -29,9 +29,16 @@ return {
     {
       '<leader>sf',
       function()
-        Snacks.picker.smart()
+        Snacks.picker.files()
       end,
       desc = 'Find Files',
+    },
+    {
+      '<leader>sF',
+      function()
+        Snacks.picker.smart()
+      end,
+      desc = 'Smart Find Files',
     },
     {
       '<leader><leader>',
