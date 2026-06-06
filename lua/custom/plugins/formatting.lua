@@ -30,6 +30,7 @@ return {
       html = { 'prettierd', 'prettier' },
       -- python = { 'black', 'isort', stop_after_first = false },
       glsl = { 'clang-format' },
+      odin = { 'odinfmt' },
     },
     notify_on_error = true,
     format_on_save = function(bufnr)

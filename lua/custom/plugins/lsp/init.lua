@@ -370,6 +370,8 @@ return {
       yamlls = {},
 
       buf_ls = {},
+
+      ols = {},
     }
 
     -- Use this list to install servers that are present in your bin path (not installed via Mason)
