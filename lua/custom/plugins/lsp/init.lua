@@ -355,11 +355,20 @@ return {
       expert = {},
 
       basedpyright = {
-        analysis = {
-          autoImportCompletions = true,
-          autoSearchPaths = true,
-          diagnosticMode = 'workspace',
-          typeCheckingMode = 'strict', -- standard, strict, all, off, basic
+        settings = {
+          basedpyright = {
+            analysis = {
+              autoImportCompletions = true,
+              autoSearchPaths = true,
+              diagnosticMode = 'workspace',
+              typeCheckingMode = 'strict', -- standard, strict, all, off, basic
+              reportAny = 'none',
+              reportUnknownVariableType = 'none',
+              reportUnknownMemberType = 'none',
+              reportUnknownArgumentType = 'none',
+              reportUnknownParameterType = 'none',
+            },
+          },
         },
       },
       -- pyright = {},
