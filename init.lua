@@ -97,6 +97,20 @@ vim.keymap.set('i', '<M-BS>', '<C-W>', { desc = 'Delete previous word (macOS Alt
 -- Delete to beginning of line in insert mode with Cmd+Backspace (macOS style)
 vim.keymap.set('i', '<D-BS>', '<C-U>', { desc = 'Delete to beginning of line (macOS Cmd+Backspace)' })
 
+-- macOS-style cursor movement across modes
+vim.keymap.set({ 'n', 'x' }, '<M-Left>', 'b', { desc = 'Move backward a word (macOS Alt+Left)' })
+vim.keymap.set({ 'n', 'x' }, '<M-Right>', 'w', { desc = 'Move forward a word (macOS Alt+Right)' })
+vim.keymap.set('i', '<M-Left>', '<C-o>b', { desc = 'Move backward a word (macOS Alt+Left)' })
+vim.keymap.set('i', '<M-Right>', '<C-o>w', { desc = 'Move forward a word (macOS Alt+Right)' })
+
+vim.keymap.set({ 'n', 'x' }, '<D-Left>', '0', { desc = 'Go to line start (macOS Cmd+Left)' })
+vim.keymap.set({ 'n', 'x' }, '<D-Right>', '$', { desc = 'Go to line end (macOS Cmd+Right)' })
+vim.keymap.set('i', '<D-Left>', '<C-o>0', { desc = 'Go to line start (macOS Cmd+Left)' })
+vim.keymap.set('i', '<D-Right>', '<C-o>$', { desc = 'Go to line end (macOS Cmd+Right)' })
+
+vim.keymap.set('n', '<D-BS>', 'd0', { desc = 'Delete to beginning of line (macOS Cmd+Backspace)' })
+vim.keymap.set('x', '<D-BS>', '<Esc>d0', { desc = 'Delete to beginning of line (macOS Cmd+Backspace)' })
+
 -- Exit terminal mode in the builtin terminal with a shortcut that is a bit easier
 -- for people to discover. Otherwise, you normally need to press <C-\><C-n>, which
 -- is not what someone will guess without a bit more experience.
@@ -376,9 +390,11 @@ require('lazy').setup({
     config = function()
       vim.api.nvim_create_autocmd('FileType', {
         callback = function(args)
+          local ft = vim.bo[args.buf].filetype
           ---@diagnostic disable-next-line: undefined-field
-          local lang = args.filetype and vim.treesitter.language.get_lang(args.filetype)
+          local lang = ft ~= '' and vim.treesitter.language.get_lang(ft)
           if lang then
+            pcall(vim.treesitter.start, args.buf)
             vim.wo.foldexpr = 'v:lua.vim.treesitter.foldexpr()'
             vim.wo.foldmethod = 'expr'
             vim.bo[args.buf].indentexpr = 'v:lua.require"nvim-treesitter".indentexpr()'
