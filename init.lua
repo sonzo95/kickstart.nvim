@@ -451,4 +451,5 @@ require('lazy').setup({
 
 -- vim.cmd.colorscheme 'monokai-pro'
 -- vim.cmd.colorscheme 'catppuccin-mocha'
-vim.cmd.colorscheme 'vscode'
+-- vim.cmd.colorscheme 'vscode'
+vim.cmd.colorscheme 'rose-pine'
