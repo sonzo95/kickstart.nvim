@@ -108,6 +108,9 @@ vim.keymap.set({ 'n', 'x' }, '<D-Right>', '$', { desc = 'Go to line end (macOS C
 vim.keymap.set('i', '<D-Left>', '<C-o>0', { desc = 'Go to line start (macOS Cmd+Left)' })
 vim.keymap.set('i', '<D-Right>', '<C-o>$', { desc = 'Go to line end (macOS Cmd+Right)' })
 
+-- Backspace in normal mode deletes current character and enters insert mode (replaces native `s`, which mini.surround disables)
+vim.keymap.set('n', '<BS>', 'cl', { desc = 'Delete character and insert (like native s)' })
+
 vim.keymap.set('n', '<D-BS>', 'd0', { desc = 'Delete to beginning of line (macOS Cmd+Backspace)' })
 vim.keymap.set('x', '<D-BS>', '<Esc>d0', { desc = 'Delete to beginning of line (macOS Cmd+Backspace)' })
 
